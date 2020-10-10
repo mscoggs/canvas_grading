@@ -3,10 +3,32 @@ import sys,os
 import PyPDF2
 import glob
 from fpdf import FPDF
+from PIL import Image
+import img2pdf
+
+QUESTION_IDS = [25161967, 25161976, 25161977, 25161978, 25161979, 25161980, 25161982, 25161983, 25161985]
+
+def convert_to_pdfs():
+    for type in [".png", ".jpg", ".jpeg"]:
+        for filename in sorted(glob.glob('submissions/*'+type)):
+            name = filename[:-4]
+            try:
+                os.remove(name+'.pdf')
+            except:
+                print(name+'.pdf doesnt exists')
+            try:
+                f = open(name+'.pdf',"wb")
+                f.write(img2pdf.convert(filename))
+                f.close()
+            except:
+                print("skipping", filename)
+
 
 def make_names_pdf(full_name):
     try:
-        name = full_name.replace("_", " ")
+        splt = full_name.split("_")
+        first, last = splt[1], splt[0]
+        name = first + " " + last
     except:
         name = full_name
     pdf = FPDF(unit="mm",format=[100,40])
@@ -19,26 +41,25 @@ def make_names_pdf(full_name):
 def pdf_cat(q_nums):
 
     pdfWriter = PyPDF2.PdfFileWriter()
-    old_name, questions, counts = "", [[],[],[],[],[],[],[],[],[]],  [0,0,0,0,0,0,0,0,0]
+    questions, counts = [[],[],[],[],[],[],[],[],[],],  [0,0,0,0,0,0,0,0,0]
 
     print("\n\n...Loading submissions...\n\n\n")
     for filename in sorted(glob.glob('submissions/*.pdf')):
-        new_name = filename.split("_question")[0].split("\\")[1]
-        if(old_name != new_name): q = 0
+        q_id = int((filename.split("question_")[1]).split("_")[0])
+        q = QUESTION_IDS.index(q_id)
         questions[q].append(filename)
         counts[q] = counts[q] + 1
-        old_name=new_name
         q+=1
 
-    q=0
+    q=1
     for question in questions:
         file_count = 0
         q+=1
-        print("\n\n")
+        print("\n\n", q)
         if(str(q) not in q_nums): continue
         for filename in question:
 
-            print("\rCreating question_"+str(q)+".pdf, ", file_count,"/",counts[q], " submissions appended", end="")
+            print("\rCreating question_"+str(q)+".pdf, ", file_count,"/",counts[q-2], " submissions appended", end="")
             full_name =  filename.split("_question")[0].split("\\")[1]
             full_name = ''.join([i for i in full_name if not i.isdigit()])
             make_names_pdf(full_name)
@@ -70,6 +91,7 @@ def pdf_cat(q_nums):
 
 
 def main(q_nums):
+    convert_to_pdfs()
     pdf_cat(q_nums)
 
 
