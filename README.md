@@ -1,5 +1,5 @@
 # canvas_grading
-For a class with N students and Q questions, a grader will have to download and wait for an answer to open NQ times. This makes me sad. To avoid this, this script combines all of the students responses into Q pdfs, one per question.
+For a class with N students and Q questions, a grader will have to download and wait for an answer to open NQ times. This script avoids this by combining all of the students responses into Q pdfs, one per question.
 
 
 ## REQUIREMENTS
