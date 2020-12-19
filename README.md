@@ -1,7 +1,16 @@
-A script which streamlines the grading process by combining individual pdfs across 300+ students into a single pdf for each question that they answer.
+# canvas_grading
+For a class with N students and Q questions, a grader will have to download and wait for an answer to open NQ times. This makes me sad. To avoid this, this script combines all of the students responses into Q pdfs, one per question.
 
-All you need is the most recent version of python, along with the 3 packages: glob, PyPDF2, and FPDF (all of which I think can be installed with "pip install NAME" from the windows command line, not sure about other OS).
 
-You have to download the submission files from canvas by clicking the notorious "download all" button, then store this in "submissions/" in the same directory as the script. Also, you'll need to hardcode each unique question ID in make_pdfs.py.
+## REQUIREMENTS
+- python
+- glob
+- PyPDF2
+- FPDF
 
-Then "python make_pdfs.py i j k z" creates the pdfs for question i,j,k and z.
+## USAGE
+You have to download the submission files from canvas by clicking the notorious "download all" button, then store this in "submissions/" in the same directory as the script. Hardcode each unique question ID into make_pdfs.py. Then:
+ ```bash  
+python make_pdfs.py i j k z
+```
+creates the pdfs for questions i,j,k.
