@@ -11,6 +11,6 @@ For a class with N students and Q questions, a grader will have to download and 
 ## USAGE
 You have to download the submission files from canvas by clicking the notorious "download all" button, then store this in "submissions/" in the same directory as the script. Hardcode each unique question ID into make_pdfs.py. Then:
  ```bash  
-python make_pdfs.py i j k z
+python make_pdfs.py i j k
 ```
 creates the pdfs for questions i,j,k.
